@@ -45,6 +45,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Group it uses your location to do things.</string>
 	<key>Navigation bar</key>
 	<dict>
 		<key>Style</key>

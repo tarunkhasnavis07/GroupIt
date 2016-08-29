@@ -11,17 +11,17 @@ import JGProgressHUD
 import ParseFacebookUtilsV4
 import STZPopupView
 class MyProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     
-
+    
     var backgroundImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 260))
     var blackImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 210))
     var secondBlackImageView = UIImageView(frame: CGRect(x: 0, y: 210, width: UIScreen.mainScreen().bounds.width, height: 50))
     var profPicImageView = UIImageView(frame: CGRect(x: (UIScreen.mainScreen().bounds.width - 130)/2, y: 35, width: 130, height: 130))
     var usernameLabel = UILabel(frame: CGRect(x: 10, y: 170, width: UIScreen.mainScreen().bounds.width - 20, height: 30))
-//    var logoutLabel = UIButton(frame: CGRect(x: UIScreen.mainScreen().bounds.width - 66, y: 222.5, width: 60, height: 25))
+    //    var logoutLabel = UIButton(frame: CGRect(x: UIScreen.mainScreen().bounds.width - 66, y: 222.5, width: 60, height: 25))
     var plusButton = UIButton(frame: CGRect(x: UIScreen.mainScreen().bounds.width - 90, y: 20, width: 80, height: 30))
     var saveButton = UIButton(frame: CGRect(x: (UIScreen.mainScreen().bounds.width - 180)/2, y: UIScreen.mainScreen().bounds.height - 50, width: 180, height: 40))
     var HUD: JGProgressHUD = JGProgressHUD(style: JGProgressHUDStyle.Light)
@@ -43,62 +43,63 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     var activeField:UITextField?
     var lightColor = UIColor.grayColor()
     var darkColor = UIColor.grayColor()
+    var currActiveClass = String("nil")
     
     override func viewDidAppear(animated: Bool) {
-//        if showAlert == true {
-//            showContentAlert()
-//        }
+        //        if showAlert == true {
+        //            showContentAlert()
+        //        }
     }
     func buttonAction(sender:UIButton!)
     {
         print("Button tapped")
-//        let loginManager = FBSDKLoginManager()
-//        loginManager.logOut()
-
+        //        let loginManager = FBSDKLoginManager()
+        //        loginManager.logOut()
+        
         PFUser.logOutInBackgroundWithBlock { (error:NSError?) -> Void in
             
             if(error == nil) {
                 
-                 self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissViewControllerAnimated(true, completion: nil)
             } else {
-               
+                
             }
         }
-     
+        
         
         //self.window.rootViewController = ViewController(nibName: nil, bundle: nil)
         //self.performSegueWithIdentifier("logoutSegue", sender: self)
     }
-//    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "logoutSeg" {
-//            let destVC = segue.destinationViewController as! ViewController
-//            destVC.performedLogout = true
-//        }
-//    }
-//    
+    //
+    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //        if segue.identifier == "logoutSeg" {
+    //            let destVC = segue.destinationViewController as! ViewController
+    //            destVC.performedLogout = true
+    //        }
+    //    }
+    //
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        for family: String in UIFont.familyNames()
-//        {
-//            print("\(family)")
-//            for names: String in UIFont.fontNamesForFamilyName(family)
-//            {
-//                print("== \(names)")
-//            }
-//        }
+        //        for family: String in UIFont.familyNames()
+        //        {
+        //            print("\(family)")
+        //            for names: String in UIFont.fontNamesForFamilyName(family)
+        //            {
+        //                print("== \(names)")
+        //            }
+        //        }
         
         activeClassLabel.frame = CGRect(x: editButton.frame.maxX + 10, y: 220, width: 220, height: 30)
         
-          var tabBarHeight = UITabBar().frame.height
+        var tabBarHeight = UITabBar().frame.height
         saveButton.frame = CGRect(x: (UIScreen.mainScreen().bounds.width - 180)/2, y: UIScreen.mainScreen().bounds.height - 40 - 50 - 10, width: 180, height: 40)
-
-
-//        var image: UIImage = UIImage(named: "sathe")!
-//        self.tableView.backgroundView = nil
-//        self.tableView.backgroundColor = UIColor(patternImage: image)
-
+        
+        
+        //        var image: UIImage = UIImage(named: "sathe")!
+        //        self.tableView.backgroundView = nil
+        //        self.tableView.backgroundColor = UIColor(patternImage: image)
+        
         
         lightColor = colorWithHexString ("#9ddaf6")
         darkColor = colorWithHexString ("#4DA9D5")
@@ -106,7 +107,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         let myPurpleColor = colorWithHexString ("#7d0541")
         let myGrayColor = colorWithHexString ("#9ddaf6")
         
-//        editButton.setImage(UIImage(named: "edit-1"), forState: .Normal)
+        //        editButton.setImage(UIImage(named: "edit-1"), forState: .Normal)
         editButton.setTitle("Edit", forState: .Normal)
         editButton.layer.cornerRadius = 5
         editButton.layer.borderColor = UIColor.whiteColor().CGColor
@@ -114,14 +115,14 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         editButton.addTarget(self, action: "editButtonPressed:", forControlEvents: .TouchUpInside)
         editButton.tag = 3
         editButton.titleLabel?.font = UIFont.systemFontOfSize(15)
-//        editButton.setTitle("Test Button", forState: UIControlState.Normal)
-//        self.view.addSubview(editButton)
+        //        editButton.setTitle("Test Button", forState: UIControlState.Normal)
+        //        self.view.addSubview(editButton)
         
         activeClassLabel.text = "ACTIVE CLASS: "
         activeClassLabel.font = UIFont.systemFontOfSize(14)
         activeClassLabel.textAlignment = .Center
         activeClassLabel.textColor = UIColor.whiteColor()
-//        activeClassLabel.adjustsFontSizeToFitWidth = true
+        //        activeClassLabel.adjustsFontSizeToFitWidth = true
         
         
         saveButton.setTitle("SAVE", forState: .Normal)
@@ -136,20 +137,20 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         self.navigationController?.navigationBar.hidden = true
-        beganKeyboardNotifications()
-//        
-//        var tapToDismiss: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-//        tapToDismiss.cancelsTouchesInView = false
-//        self.view!.addGestureRecognizer(tapToDismiss)
-
+        //beganKeyboardNotifications()
+        //
+        //        var tapToDismiss: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        //        tapToDismiss.cancelsTouchesInView = false
+        //        self.view!.addGestureRecognizer(tapToDismiss)
+        
         
         getCurrUserObject()
-//        saveButton.setTitle("SAVE", forState: .Normal)
-//        saveButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-//        saveButton.backgroundColor = myGrayColor
-//        saveButton.addTarget(self, action: "saveClasses", forControlEvents: .TouchUpInside)
-//        saveButton.layer.cornerRadius = 5
-//        saveButton.alpha = 0
+        //        saveButton.setTitle("SAVE", forState: .Normal)
+        //        saveButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        //        saveButton.backgroundColor = myGrayColor
+        //        saveButton.addTarget(self, action: "saveClasses", forControlEvents: .TouchUpInside)
+        //        saveButton.layer.cornerRadius = 5
+        //        saveButton.alpha = 0
         plusButton.setTitle(" ADD CLASS ", forState: .Normal)
         plusButton.setTitleColor(myGrayColor, forState: .Normal)
         plusButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -177,7 +178,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewDidDisappear(animated: Bool) {
-        endKeyboardNotifications()
+        //endKeyboardNotifications()
     }
     func getCurrUserObject() {
         var query = PFQuery(className:"_User")
@@ -200,6 +201,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         if self.currUserObject["activeClass"] != nil {
                             self.activeClassLabel.text = "ACTIVE CLASS:" + (object["activeClass"] as! String)
+                            self.currActiveClass = object["activeClass"] as! String
                         }
                         
                         self.loaded = true
@@ -225,8 +227,8 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-
-
+    
+    
     
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -240,7 +242,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         var numSmallRows = (UIScreen.mainScreen().bounds.height - 230)/50
         return Int(numSmallRows) + 1
     }
-
+    
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -273,17 +275,17 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             var effectView:UIVisualEffectView = UIVisualEffectView (effect: blur)
             effectView.frame = CGRect(x: 0, y: 210, width: UIScreen.mainScreen().bounds.width, height: 260)
             backgroundImageView.clipsToBounds = true
-//            backgroundImageView.addSubview(effectView)
+            //            backgroundImageView.addSubview(effectView)
             var yourFont: UIFont = UIFont.systemFontOfSize(23)
             usernameLabel.font = yourFont
-//            logoutLabel.setTitle("Logout", forState: .Normal)
-//            logoutLabel.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-//            logoutLabel.titleLabel!.font = UIFont.systemFontOfSize(15)
-//            
-//            //logoutLabel.textFfont = yourFont
-//            logoutLabel.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-//
-//            
+            //            logoutLabel.setTitle("Logout", forState: .Normal)
+            //            logoutLabel.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            //            logoutLabel.titleLabel!.font = UIFont.systemFontOfSize(15)
+            //
+            //            //logoutLabel.textFfont = yourFont
+            //            logoutLabel.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            //
+            //
             profPicImageView.contentMode = .ScaleAspectFill
             profPicImageView.layer.borderColor = Constants.greenColor.CGColor
             profPicImageView.layer.borderWidth = 2
@@ -296,33 +298,33 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             secondBlackImageView.alpha = 0.4
             backgroundImageView.clipsToBounds = true
             usernameLabel.text = PFUser.currentUser()?.username
-           // logoutLabel.text = "Logout"
+            // logoutLabel.text = "Logout"
             //logoutLabel.font = UIFont(name: "System", size: 10)
-//            logoutLabel.layer.borderWidth = 1
-//            logoutLabel.layer.borderColor = UIColor.whiteColor().CGColor
-//            logoutLabel.layer.cornerRadius = 3
+            //            logoutLabel.layer.borderWidth = 1
+            //            logoutLabel.layer.borderColor = UIColor.whiteColor().CGColor
+            //            logoutLabel.layer.cornerRadius = 3
             //usernameLabel.font = UIFont(name: "System", size: 18)
             usernameLabel.textColor = UIColor.whiteColor()
             usernameLabel.textAlignment = .Center
             //logoutLabel.titleColorForState(.Normal) = UIColor.whiteColor()
             //logoutLabel = Constants.greenColor
-//            logoutLabel.layer.borderColor = Constants.greenColor.CGColor
+            //            logoutLabel.layer.borderColor = Constants.greenColor.CGColor
             //logoutLabel.textAlignment = .Center
             cell!.addSubview(backgroundImageView)
             cell?.addSubview(secondBlackImageView)
             cell!.addSubview(blackImageView)
             cell!.addSubview(profPicImageView)
             cell!.addSubview(usernameLabel)
-//            cell!.addSubview(logoutLabel)
+            //            cell!.addSubview(logoutLabel)
             cell?.addSubview(activeClassLabel)
             cell!.bringSubviewToFront(profPicImageView)
             cell!.bringSubviewToFront(usernameLabel)
-//            cell!.bringSubviewToFront(logoutLabel)
+            //            cell!.bringSubviewToFront(logoutLabel)
             cell?.bringSubviewToFront(activeClassLabel)
             
             
-//            editButton.setImage(UIImage(named: "edit-1"), forState: .Normal)
-//            editButton.addTarget(self, action: "editButtonPressed:", forControlEvents: .TouchUpInside)
+            //            editButton.setImage(UIImage(named: "edit-1"), forState: .Normal)
+            //            editButton.addTarget(self, action: "editButtonPressed:", forControlEvents: .TouchUpInside)
             //editButton.tag = indexPath.row - 1
             
             doneButton.setImage(UIImage(named: "checkmark"), forState: .Normal)
@@ -334,11 +336,11 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             cell?.addSubview(doneButton)
             cell?.addSubview(editButton)
             
-        } else if indexPath.row <= classes.count && indexPath.row != classes.count + 1 {
+        } else if indexPath.row <= classes.count  {
             
-//            if cells.count < indexPath.row {
-                print("right now the edit mode is")
-                print(editMode)
+            //            if cells.count < indexPath.row {
+            print("right now the edit mode is")
+            print(editMode)
             
             for subview in (cell?.subviews)! {
                 subview.removeFromSuperview()
@@ -346,59 +348,60 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
             
-                var classTextField = UITextField(frame: CGRect(x: 20, y: ((cell?.frame.height)! - 45)/2 , width: UIScreen.mainScreen().bounds.width - 40, height: 45))
-                classTextField.font = UIFont(name: (classTextField.font?.fontName)!, size: 17)
-                classTextField.layer.cornerRadius = 1
-                classTextField.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)
-                classTextField.borderStyle = .None
-                classTextField.text = classes[indexPath.row - 1]
-                classTextField.placeholder = "<Your class here>"
-                classTextField.textAlignment = .Center
-                classTextField.delegate = self
-                classTextField.textColor = Constants.greenColor
-                
-                var classLabel = UILabel(frame: CGRect(x: 40, y: ((cell?.frame.height)! - 45)/2 , width: UIScreen.mainScreen().bounds.width - 80, height: 45))
-                classLabel.textAlignment = .Center
-                classLabel.text = classes[indexPath.row - 1]
-                classLabel.font = classLabel.font.fontWithSize(17)
-                classLabel.textColor = Constants.greenColor
-                
+            var classTextField = UITextField(frame: CGRect(x: 20, y: ((cell?.frame.height)! - 45)/2 , width: UIScreen.mainScreen().bounds.width - 40, height: 45))
+            classTextField.font = UIFont(name: (classTextField.font?.fontName)!, size: 17)
+            classTextField.layer.cornerRadius = 1
+            classTextField.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)
+            classTextField.borderStyle = .None
             
-                
-                let myBlueColor = colorWithHexString ("#9ddaf6")
-                
-                //activeClassLabel.textColor = Constants.greenColor
-//                activeClassLabel.adjustsFontSizeToFitWidth = true
-//                if (currUserObject["activeClass"] as! String) != classLabel.text {
-//                    activeClassLabel.alpha = 0
-//                    activeClassLabel.hidden = true
-//                }
+            classTextField.text = classes[indexPath.row - 1]
+            classTextField.placeholder = "<Your class here>"
+            classTextField.textAlignment = .Center
+            classTextField.delegate = self
+            classTextField.textColor = Constants.greenColor
             
-                if editMode == true {
-                    classTextField.hidden = false
-                    classTextField.alpha = 1
-                    classLabel.hidden = true
-                    classLabel.alpha = 0
-                    print("got into edit place")
-                } else {
-                    classTextField.hidden = true
-                    classTextField.alpha = 0
-                    classLabel.hidden = false
-                    classLabel.alpha = 1
-                }
-                
-//                activeClassLabels.append(activeClassLabel)
-                classLabels.append(classLabel)
-                classTextFields.append(classTextField)
-                //                editButtons.append(editButton)
-                //                doneButtons.append(doneButton)
-//                cell?.addSubview(activeClassLabel)
-                //                cell?.addSubview(doneButton)
-                cell?.addSubview(classLabel)
-//                                cell?.addSubview(editButton)
-                cell?.addSubview(classTextField)
-                cells.append(cell!)
-//            }
+            var classLabel = UILabel(frame: CGRect(x: 40, y: ((cell?.frame.height)! - 45)/2 , width: UIScreen.mainScreen().bounds.width - 80, height: 45))
+            classLabel.textAlignment = .Center
+            classLabel.text = classes[indexPath.row - 1]
+            classLabel.font = classLabel.font.fontWithSize(17)
+            classLabel.textColor = Constants.greenColor
+            
+            
+            
+            let myBlueColor = colorWithHexString ("#9ddaf6")
+            
+            //activeClassLabel.textColor = Constants.greenColor
+            //                activeClassLabel.adjustsFontSizeToFitWidth = true
+            //                if (currUserObject["activeClass"] as! String) != classLabel.text {
+            //                    activeClassLabel.alpha = 0
+            //                    activeClassLabel.hidden = true
+            //                }
+            
+            if editMode == true {
+                classTextField.hidden = false
+                classTextField.alpha = 1
+                classLabel.hidden = true
+                classLabel.alpha = 0
+                print("got into edit place")
+            } else {
+                classTextField.hidden = true
+                classTextField.alpha = 0
+                classLabel.hidden = false
+                classLabel.alpha = 1
+            }
+            
+            //                activeClassLabels.append(activeClassLabel)
+            classLabels.append(classLabel)
+            classTextFields.append(classTextField)
+            //                editButtons.append(editButton)
+            //                doneButtons.append(doneButton)
+            //                cell?.addSubview(activeClassLabel)
+            //                cell?.addSubview(doneButton)
+            cell?.addSubview(classLabel)
+            //                                cell?.addSubview(editButton)
+            cell?.addSubview(classTextField)
+            cells.append(cell!)
+            //            }
             
             
         } else if indexPath.row == classes.count + 1 && indexPath.row < 5 {
@@ -416,7 +419,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
                 subview.removeFromSuperview()
             }
             
-//            cell?.addSubview(saveButton)
+            //            cell?.addSubview(saveButton) **************
         }
         
         return cell!
@@ -434,66 +437,115 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row != 0 && cells.count >= indexPath.row && classTextFields[indexPath.row - 1].text?.characters.count >= 2 {
-        
             
-            var newActiveClass = ""
-            if editMode == true {
-                newActiveClass = classTextFields[indexPath.row - 1].text!
-            } else {
-                newActiveClass = classLabels[indexPath.row - 1].text!
+            if editMode == false {
+                currActiveClass = classLabels[indexPath.row - 1].text!
             }
+            activeClassLabel.text = "ACTIVE CLASS: " + currActiveClass
+            activeClassQuery(classes[indexPath.row - 1])
             
-            activeClassLabel.text = "ACTIVE CLASS: " + newActiveClass
-            activeClassQuery(newActiveClass)
+            //            var newActiveClass = ""
+            //            if editMode == true {
+            //                newActiveClass = classTextFields[indexPath.row - 1].text!
+            //            } else {
+            //                newActiveClass = classLabels[indexPath.row - 1].text!
+            //            }
+            //
+            //            activeClassLabel.text = "ACTIVE CLASS: " + newActiveClass
+            //            activeClassQuery(newActiveClass)
             
-//            if currActiveClassLabel.hidden == true {
-//                for activeClassLabel in activeClassLabels {
-//                    activeClassLabel.hidden = true
-//                    activeClassLabel.alpha = 0
-//                }
-//                currActiveClassLabel.hidden = false
-//                UIView.animateWithDuration(0.25, animations: {
-//                    currActiveClassLabel.alpha = 1
-//                })
-//                
-//                activeClassQuery(classes[indexPath.row - 1])
-//                
-//            } else {
-//                currActiveClassLabel.hidden = true
-//                UIView.animateWithDuration(0.25, animations: {
-//                    currActiveClassLabel.alpha = 0
-//                })
-//            }
+            //            if currActiveClassLabel.hidden == true {
+            //                for activeClassLabel in activeClassLabels {
+            //                    activeClassLabel.hidden = true
+            //                    activeClassLabel.alpha = 0
+            //                }
+            //                currActiveClassLabel.hidden = false
+            //                UIView.animateWithDuration(0.25, animations: {
+            //                    currActiveClassLabel.alpha = 1
+            //                })
+            //
+            //                activeClassQuery(classes[indexPath.row - 1])
+            //
+            //            } else {
+            //                currActiveClassLabel.hidden = true
+            //                UIView.animateWithDuration(0.25, animations: {
+            //                    currActiveClassLabel.alpha = 0
+            //                })
+            //            }
             //tableView.reloadData()
         }
         //tableView.reloadData()
     }
     
+    //    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    //        if indexPath.row != 0 && classTextFields.count >= indexPath.row - 1 {
+    //            var updatedClasses = Array<String>()
+    //            var currActiveClass = ""
+    //            for (var i = 0; i < classLabels.count; i++) {
+    //                if classLabels[i].alpha != 0 {
+    //                    updatedClasses.append(classLabels[i].text!)
+    //
+    //                }
+    //                if classTextFields[i].alpha != 0 {
+    //
+    //                    updatedClasses.append(classTextFields[i].text!)
+    //
+    //                }
+    //            }
+    //            print("the length is ")
+    //            print(updatedClasses)
+    //            updatedClasses.removeAtIndex(indexPath.row - 1)
+    //
+    //            if currActiveClass == "" {
+    //                currActiveClass = (classLabels.first?.text)!
+    //            }
+    //            var currClass = classes[indexPath.row - 1]
+    //            classes.removeAtIndex(indexPath.row - 1)
+    //        var query = PFQuery(className:"_User")
+    //        query.whereKey("objectId", equalTo: (PFUser.currentUser()?.objectId)!)
+    //        query.findObjectsInBackgroundWithBlock {
+    //            (objects: [PFObject]?, error: NSError?) -> Void in
+    //
+    //            if error == nil {
+    //                // The find succeeded.
+    //                print("Successfully retrieved \(objects!.count) scores.")
+    //                // Do something with the found objects
+    //                if let objects = objects {
+    //                    for object in objects {
+    //                        object["user_courses"] = updatedClasses
+    //                        object["activeClass"] = currActiveClass
+    //                        object.saveInBackgroundWithBlock {
+    //                            (success, error) in
+    //                            if success == true {
+    //                                self.classes = Array<String>()
+    //                                self.cells = Array<UITableViewCell>()
+    //                                self.editButtons = Array<UIButton>()
+    //                                self.doneButtons = Array<UIButton>()
+    //                                self.classTextFields = Array<UITextField>()
+    //                                self.classLabels = Array<UILabel>()
+    //                                self.activeClassLabels = Array<UILabel>()
+    //
+    //                                self.getCurrUserObject()
+    ////                                self.tableView.reloadData()
+    //                            } else {
+    //
+    //                            }
+    //                        }
+    //
+    //                    }
+    //                }
+    //            } else {
+    //                // Log details of the failure
+    //                print("Error: \(error!) \(error!.userInfo)")
+    //            }
+    //        }
+    //
+    //        }
+    //
+    //    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row != 0 && classTextFields.count >= indexPath.row - 1 {
-            var updatedClasses = Array<String>()
-            var currActiveClass = ""
-            for (var i = 0; i < classLabels.count; i++) {
-                if classLabels[i].alpha != 0 {
-                  
-                    updatedClasses.append(classLabels[i].text!)
-
-                }
-                if classTextFields[i].alpha != 0 {
-                  
-                    updatedClasses.append(classTextFields[i].text!)
-                    
-                }
-            }
-            print("the length is ")
-            print(updatedClasses)
-            updatedClasses.removeAtIndex(indexPath.row - 1)
-            
-            if currActiveClass == "" {
-                currActiveClass = (classLabels.first?.text)!
-            }
-            var currClass = classes[indexPath.row - 1]
-            classes.removeAtIndex(indexPath.row - 1)
+        
         var query = PFQuery(className:"_User")
         query.whereKey("objectId", equalTo: (PFUser.currentUser()?.objectId)!)
         query.findObjectsInBackgroundWithBlock {
@@ -505,26 +557,16 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
                 // Do something with the found objects
                 if let objects = objects {
                     for object in objects {
-                        object["user_courses"] = updatedClasses
-                        object["activeClass"] = currActiveClass
-                        object.saveInBackgroundWithBlock {
-                            (success, error) in
-                            if success == true {
-                                self.classes = Array<String>()
-                                self.cells = Array<UITableViewCell>()
-                                self.editButtons = Array<UIButton>()
-                                self.doneButtons = Array<UIButton>()
-                                self.classTextFields = Array<UITextField>()
-                                self.classLabels = Array<UILabel>()
-                                self.activeClassLabels = Array<UILabel>()
-                                
-                                self.getCurrUserObject()
-//                                self.tableView.reloadData()
-                            } else {
-                                
-                            }
-                        }
-             
+                        object.removeObject(self.classes[indexPath.row - 1], forKey: "user_courses")
+                        object.saveInBackgroundWithTarget(nil, selector: nil)
+                        self.classes = Array<String>()
+                        self.cells = Array<UITableViewCell>()
+                        self.editButtons = Array<UIButton>()
+                        self.doneButtons = Array<UIButton>()
+                        self.classTextFields = Array<UITextField>()
+                        self.classLabels = Array<UILabel>()
+                        self.activeClassLabels = Array<UILabel>()
+                        self.getCurrUserObject()
                     }
                 }
             } else {
@@ -533,7 +575,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
-        }
+        
         
     }
     
@@ -583,35 +625,111 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func plusButtonPressed(sender: UIButton) {
+        print("pressing plus button")
         plusButton.removeFromSuperview()
         classes.append("")
+        var updatedClasses = Array<String>()
         for label in classLabels {
             label.removeFromSuperview()
         }
         
         for textField in classTextFields {
+            print("removing from superview " + textField.text!)
+            updatedClasses.append(textField.text!)
+            print("updated classes are")
+            print(updatedClasses)
             textField.removeFromSuperview()
         }
+        
+        
+        
+        for (var i = 0; i < updatedClasses.count; i += 1) {
+            //if classLabels[i].alpha != 0 {
+            //print("alpha is not 0")
+            print("updated class " + updatedClasses[i])
+            
+            classTextFields[i].text = updatedClasses[i]
+            
+            //                if updatedClasses.contains(classTextFields[i].text!) == false {
+            //                    print(classTextFields[i].text!)
+            //                    updatedClasses.append(classTextFields[i].text!)
+            //                }
+            
+            //                if activeClassLabels[i].alpha != 0 {
+            //                    currActiveClass = classLabels[i].text!
+            //                }
+            //}
+            //if classTextFields[i].alpha != 0 {
+            //                if updatedClasses.contains(classTextFields[i].text!) == false {
+            //                    updatedClasses.append(classTextFields[i].text!)
+            //                }
+            
+            //}
+        }
+        
+        
+        
+        
         self.cells = Array<UITableViewCell>()
         self.editButtons = Array<UIButton>()
         self.doneButtons = Array<UIButton>()
         self.classTextFields = Array<UITextField>()
         self.classLabels = Array<UILabel>()
         self.activeClassLabels = Array<UILabel>()
+        print("before ", classTextFields.count)
+        print("before updated classes are")
+        print(updatedClasses)
+        print("and classes are")
+        print(classes)
+        
+        for className in classes {
+            if className == "" {
+                let classIndex = classes.indexOf(className)
+                if updatedClasses.count > classIndex {
+                    classes[classIndex!] = updatedClasses[classIndex!]
+                }
+            }
+        }
+        
+        
         
         tableView.reloadData()
-//
-//        UIView.animateWithDuration(0.25, animations: {
-//            for classTextField in self.classTextFields {
-//                classTextField.hidden = false
-//                classTextField.alpha = 1
-//                classTextField.placeholder = "<your class here>"
-//            }
-//            for classLabel in self.classLabels {
-//                classLabel.alpha = 0
-//                classLabel.hidden = true
-//            }
-//        })
+        print("after ", classTextFields.count)
+        print("updated classes after are")
+        print(updatedClasses)
+        //
+        //        if currActiveClass == "nil" {
+        //            currActiveClass = (classLabels.first?.text)!
+        //        }
+        //
+        //        for (var i = 0; i < classLabels.count; i += 1) {
+        //
+        //        }
+        //        for classTextField in classTextFields {
+        //            if classTextField.hidden == false {
+        //                classLabels[classTextFields.indexOf(classTextField)!].text = classTextField.text
+        //            }
+        //
+        //            classTextField.hidden = true
+        //            classTextField.alpha = 0
+        //        }
+        
+        
+        
+        
+        
+        //
+        //        UIView.animateWithDuration(0.25, animations: {
+        //            for classTextField in self.classTextFields {
+        //                classTextField.hidden = false
+        //                classTextField.alpha = 1
+        //                classTextField.placeholder = "<your class here>"
+        //            }
+        //            for classLabel in self.classLabels {
+        //                classLabel.alpha = 0
+        //                classLabel.hidden = true
+        //            }
+        //        })
         
     }
     
@@ -624,7 +742,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
         HUD.textLabel.text = "Saving..."
         HUD.showInView(view)
         var updatedClasses = Array<String>()
-        var currActiveClass = ""
+        //var currActiveClass = ""
         for (var i = 0; i < classLabels.count; i++) {
             if classLabels[i].alpha != 0 {
                 if updatedClasses.contains(classLabels[i].text!) == false {
@@ -643,7 +761,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
-        if currActiveClass == "" {
+        if currActiveClass == "nil" {
             currActiveClass = (classLabels.first?.text)!
         }
         
@@ -659,7 +777,7 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
                 if let objects = objects {
                     for object in objects {
                         object["user_courses"] = updatedClasses
-                        object["activeClass"] = currActiveClass
+                        object["activeClass"] = self.currActiveClass
                         object.saveInBackgroundWithTarget(nil, selector: nil)
                         self.classes = updatedClasses
                         self.saveButton.alpha = 0
@@ -685,13 +803,13 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
             classTextField.hidden = true
             classTextField.alpha = 0
         }
-        self.cells = Array<UITableViewCell>()
-        self.editButtons = Array<UIButton>()
-        self.doneButtons = Array<UIButton>()
-        self.classTextFields = Array<UITextField>()
-        self.classLabels = Array<UILabel>()
-        self.activeClassLabels = Array<UILabel>()
-        tableView.reloadData()
+        //        self.cells = Array<UITableViewCell>()
+        //        self.editButtons = Array<UIButton>()
+        //        self.doneButtons = Array<UIButton>()
+        //        self.classTextFields = Array<UITextField>()
+        //        self.classLabels = Array<UILabel>()
+        //        self.activeClassLabels = Array<UILabel>()
+        //        tableView.reloadData()
         
     }
     
@@ -757,63 +875,64 @@ class MyProfileViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        tableView.reloadData()
         return true
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
-    func beganKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: UIKeyboardWillHideNotification, object: nil)
-    }
+    //    func beganKeyboardNotifications() {
+    //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: UIKeyboardWillShowNotification, object: nil)
+    //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillBeHidden:", name: UIKeyboardWillHideNotification, object: nil)
+    //    }
     
     
-    func endKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-    }
+    //    func endKeyboardNotifications() {
+    //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+    //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    //    }
     
-    func keyboardWasShown(notification: NSNotification) {
-        self.tableView.scrollEnabled = true
-        var userInfo : NSDictionary = notification.userInfo!
-        var keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
-        var insets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height + 50, 0.0)
-        
-        self.tableView.contentInset = insets
-        self.tableView.scrollIndicatorInsets = insets
-        
-        var rect : CGRect = self.view.frame
-        rect.size.height -= keyboardSize!.height
-        if let activeFieldPresent = activeField {
-            if (!CGRectContainsPoint(rect, activeField!.frame.origin))
-            {
-                self.tableView.scrollRectToVisible(activeField!.frame, animated: true)
-            }
-        }
-        
-        
-    }
-    
-    
-    func keyboardWillBeHidden(notification: NSNotification) {
-        var userInfo : NSDictionary = notification.userInfo!
-        var keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
-        var insets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -(keyboardSize!.height + 50), 0.0)
-        self.tableView.contentInset = insets
-        self.tableView.scrollIndicatorInsets = insets
-        self.view.endEditing(true)
-        self.tableView.scrollEnabled = false
-        
-    }
+    //    func keyboardWasShown(notification: NSNotification) {
+    //        self.tableView.scrollEnabled = true
+    //        var userInfo : NSDictionary = notification.userInfo!
+    //        var keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+    //        var insets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height + 50, 0.0)
+    //
+    //        self.tableView.contentInset = insets
+    //        self.tableView.scrollIndicatorInsets = insets
+    //
+    //        var rect : CGRect = self.view.frame
+    //        rect.size.height -= keyboardSize!.height
+    //        if let activeFieldPresent = activeField {
+    //            if (!CGRectContainsPoint(rect, activeField!.frame.origin))
+    //            {
+    //                self.tableView.scrollRectToVisible(activeField!.frame, animated: true)
+    //            }
+    //        }
+    //
+    //
+    //    }
     
     
-    func textFieldDidEndEditing(textField: UITextField!) {
-        activeField = nil
-    }
+    //    func keyboardWillBeHidden(notification: NSNotification) {
+    //        var userInfo : NSDictionary = notification.userInfo!
+    //        var keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+    //        var insets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -(keyboardSize!.height + 50), 0.0)
+    //        self.tableView.contentInset = insets
+    //        self.tableView.scrollIndicatorInsets = insets
+    //        self.view.endEditing(true)
+    //        self.tableView.scrollEnabled = false
+    //
+    //    }
     
-    func dismissKeyboard() {
-        activeField!.resignFirstResponder()
-    }
+    
+    //    func textFieldDidEndEditing(textField: UITextField!) {
+    //        activeField = nil
+    //    }
+    //
+    //    func dismissKeyboard() {
+    //        activeField!.resignFirstResponder()
+    //    }
     func showContentAlert() {
         
         var subtitleText = "Please make sure that you do not share any content that could be offensive to others and that you conduct yourself on this app in a friendly manner. Groupit does not tolerate any form of bullying or offensive content. If you violate these rules, you may be permanently banned from this app."

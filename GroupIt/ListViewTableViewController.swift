@@ -17,7 +17,7 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
+    var newLocation: CLLocation?
     var userCount = 0;
     var ParseUserList = Array<PFObject>()
     var allUsers = Array<String>()
@@ -34,7 +34,7 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
     var data: [String] = []
     var filtered: [String] = []
     var nameToUserDict = Dictionary<String, PFObject>()
-    let locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
     var currUserGeoPoint = PFGeoPoint!()
     var filteredObjects = Array<PFObject>()
     var chatObjectToPass:PFObject!
@@ -79,54 +79,54 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
     
     @IBAction func didSwitchChange(sender: AnyObject) {
         
-        if self.toggleSwitch.on {
-            timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getAndSaveLocation", userInfo: nil, repeats: true)
-            var HUD: JGProgressHUD = JGProgressHUD(style: JGProgressHUDStyle.Light)
-            HUD.textLabel.text = "Online"
-            HUD.indicatorView = JGProgressHUDSuccessIndicatorView()
-            HUD.showInView(self.view!)
-            HUD.dismissAfterDelay(1.0)
-            
-        }
-        else {
-            var HUD: JGProgressHUD = JGProgressHUD(style: JGProgressHUDStyle.Light)
-            HUD.textLabel.text = "Offline"
-            HUD.indicatorView = JGProgressHUDSuccessIndicatorView()
-            HUD.showInView(self.view!)
-            HUD.dismissAfterDelay(1.0)
-        }
-
-        
-        
-        var query = PFQuery(className:"_User")
-        query.whereKey("objectId", equalTo: (PFUser.currentUser()?.objectId)!)
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // The find succeeded.
-                print("Successfully retrieved \(objects!.count) scores.")
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        if self.toggleSwitch.on {
-                        object["status"] = true
-                        }
-                        else
-                        {
-                            object["status"] = false
-                        }
-                        
-                        object.saveInBackgroundWithTarget(nil, selector: nil)
-
-                        
-                    }
-                }
-            } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
-            }
-        }
+//        if self.toggleSwitch.on {
+//            timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getAndSaveLocation", userInfo: nil, repeats: true)
+//            var HUD: JGProgressHUD = JGProgressHUD(style: JGProgressHUDStyle.Light)
+//            HUD.textLabel.text = "Online"
+//            HUD.indicatorView = JGProgressHUDSuccessIndicatorView()
+//            HUD.showInView(self.view!)
+//            HUD.dismissAfterDelay(1.0)
+//            
+//        }
+//        else {
+//            var HUD: JGProgressHUD = JGProgressHUD(style: JGProgressHUDStyle.Light)
+//            HUD.textLabel.text = "Offline"
+//            HUD.indicatorView = JGProgressHUDSuccessIndicatorView()
+//            HUD.showInView(self.view!)
+//            HUD.dismissAfterDelay(1.0)
+//        }
+//
+//        
+//        
+//        var query = PFQuery(className:"_User")
+//        query.whereKey("objectId", equalTo: (PFUser.currentUser()?.objectId)!)
+//        query.findObjectsInBackgroundWithBlock {
+//            (objects: [PFObject]?, error: NSError?) -> Void in
+//            
+//            if error == nil {
+//                // The find succeeded.
+//                print("Successfully retrieved \(objects!.count) scores.")
+//                // Do something with the found objects
+//                if let objects = objects {
+//                    for object in objects {
+//                        if self.toggleSwitch.on {
+//                        object["status"] = true
+//                        }
+//                        else
+//                        {
+//                            object["status"] = false
+//                        }
+//                        
+//                        object.saveInBackgroundWithTarget(nil, selector: nil)
+//
+//                        
+//                    }
+//                }
+//            } else {
+//                // Log details of the failure
+//                print("Error: \(error!) \(error!.userInfo)")
+//            }
+//        }
     }
     
     
@@ -169,10 +169,6 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         }
     }
     
-    
-    
-    
-
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,10 +189,10 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         self.friendsToggleSwitch.onTintColor = colorWithHexString("#3b5998")
         self.friendsToggleSwitch.tintColor = UIColor.whiteColor()
         
-        toggleSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75)
+        //toggleSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75)
         let myGrayColor = colorWithHexString ("#9ddaf6")
-        self.toggleSwitch.onTintColor = toggleColor
-        self.toggleSwitch.tintColor = UIColor.whiteColor()
+        //self.toggleSwitch.onTintColor = toggleColor
+        //self.toggleSwitch.tintColor = UIColor.whiteColor()
         //self.toggleSwitch.backgroundColor = UIColor.whiteColor()
        // self.toggleSwitch.sendSubviewToBack(toggleSwitch)
 //        self.toggleSwitch.layer.borderWidth = 1
@@ -213,7 +209,7 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         self.view!.addGestureRecognizer(tapToDismiss)
         
         
-        getUsers()
+        
         
 //        if PFUser.currentUser()!["status"] as! Bool == false {
 //            toggleSwitch.on = false
@@ -230,21 +226,25 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         self.navigationController!.navigationBar.titleTextAttributes = titleDict as? Dictionary
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
-        locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        self.locationManager.requestWhenInUseAuthorization()
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestAlwaysAuthorization()
+        //self.locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+//        if CLLocationManager.locationServicesEna/.bled()  {
+//            locationManager.delegate = self
+//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//            locationManager.startUpdatingLocation()
+//            
+//        }
+        
         
         getAndSaveLocation()
         
-        if toggleSwitch.on {
-        NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getAndSaveLocation", userInfo: nil, repeats: true)
-       }
+//        if toggleSwitch.on {
+//        NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "getAndSaveLocation", userInfo: nil, repeats: true)
+//       }
     
         
         var currLocation = locationManager.location
@@ -253,11 +253,20 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
             currUserGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         }
 
-        
+        getUsers()
         
         self.tableView.keyboardDismissMode = .Interactive
         
      
+    }
+    func locationManager(manager: CLLocationManager,
+        didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+            
+            
+            //Location permissions changed
+            
+    
+    
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -266,11 +275,18 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         timer = nil
     }
     
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [CLLocation]) {
+        self.newLocation = locations.last
+        print("current position: \(self.newLocation!.coordinate.longitude) , \(self.newLocation!.coordinate.latitude)")
+        //        locationManager.stopUpdatingLocation()
+        getAndSaveLocation()
+        
+    }
+    
     func getAndSaveLocation() {
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
+        //locationManager.stopUpdatingLocation()
         print("getting the location")
         var currLocation = locationManager.location
         currUserGeoPoint = PFGeoPoint(location: currLocation)
@@ -290,16 +306,24 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
                     for object in objects {
                         if self.currUserGeoPoint != nil {
                             
-                            object["location"] = self.currUserGeoPoint
+                            //object["location"] = self.currUserGeoPoint
+                            //print("THE LOCATION IS", self.newLocation)
+                            //object["location"] = PFGeoPoint(latitude: 123, longitude: 123)
+                            
+                            print("CURRENTTTT position: \(self.newLocation?.coordinate.longitude) , \(self.newLocation?.coordinate.latitude)")
+                            
+                            object["location"] = PFGeoPoint(location: self.newLocation)
+                            print("saved loc", object["location"])
+                            
                         } else {
-                            object["location"] = PFGeoPoint(latitude: 0, longitude: 0)
+                            object["location"] = PFGeoPoint(latitude: 1234, longitude: 5678)
                         }
                         let status = object["status"] as! Bool
-                        if status == false {
-                            self.toggleSwitch.on = false
-                        } else {
-                            self.toggleSwitch.on = true
-                        }
+//                        if status == false {
+//                            self.toggleSwitch.on = false
+//                        } else {
+//                            self.toggleSwitch.on = true
+//                        }
                         print("got hereee")
                         object.saveInBackgroundWithTarget(nil, selector: nil)
                         }
@@ -652,15 +676,15 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
                 }
                 
                 
-                var cellUserGeoPoint = filteredObjects[indexPath.row]["location"] as! PFGeoPoint
-                var distance = currUserGeoPoint.distanceInMilesTo(cellUserGeoPoint)
-                cell.cellDistance.font = UIFont.systemFontOfSize(15)
-                cell.cellDistance.textColor = Constants.greenColor
-                if distance < 1 {
-                    cell.cellDistance.text = String(format: "%.0f", (distance*5280)) + " ft"
-                } else {
-                    cell.cellDistance.text = String(format: "%.0f", (distance)) + " mi"
-                }
+//                var cellUserGeoPoint = filteredObjects[indexPath.row]["location"] as! PFGeoPoint
+//                var distance = currUserGeoPoint.distanceInMilesTo(cellUserGeoPoint)
+//                cell.cellDistance.font = UIFont.systemFontOfSize(15)
+//                cell.cellDistance.textColor = Constants.greenColor
+//                if distance < 1 {
+//                    cell.cellDistance.text = String(format: "%.0f", (distance*5280)) + " ft"
+//                } else {
+//                    cell.cellDistance.text = String(format: "%.0f", (distance)) + " mi"
+//                }
                 var theActiveClass = filteredObjects[indexPath.row]["activeClass"] as! String
                 
                 cell.cellActiveClass.textColor = Constants.greenColor
@@ -686,18 +710,18 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
             cell.cellActiveClass.textColor = Constants.greenColor
             cell.cellNameLabel.text = userObjects[indexPath.row]["username"] as! String
             cell.cellNameLabel.textColor = UIColor.grayColor()
-//            userObjects[indexPath.row]["profilePicture"].getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
-//                if error == nil {
-//                    
-//                    cell.cellProfilePic.image = nil
-//                    
-//                    cell.cellProfilePic.image = UIImage(data:imageData!)
-//                    cell.cellProfilePic.layer.cornerRadius = cell.cellProfilePic.frame.size.width/2
-//                    cell.cellProfilePic.clipsToBounds = true
-//                } else {
-//                    print(error)
-//                }
-//            }
+            userObjects[indexPath.row]["profilePicture"].getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    
+                    cell.cellProfilePic.image = nil
+                    
+                    cell.cellProfilePic.image = UIImage(data:imageData!)
+                    cell.cellProfilePic.layer.cornerRadius = cell.cellProfilePic.frame.size.width/2
+                    cell.cellProfilePic.clipsToBounds = true
+                } else {
+                    print(error)
+                }
+            }
             
             var cellUserGeoPoint = userObjects[indexPath.row]["location"] as! PFGeoPoint
             var distance = currUserGeoPoint.distanceInMilesTo(cellUserGeoPoint)
@@ -777,11 +801,11 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         
         query.whereKey("activeClass", notContainedIn: notIncluded)
         
-        query.orderByAscending("location")
-        
+        query.whereKey("location", nearGeoPoint: currUserGeoPoint, withinMiles: 100)
         if friendMode == true {
             query.whereKey("username", containedIn: self.friendUsernames)
         }
+        
         
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
@@ -842,12 +866,9 @@ class ListViewTableViewController: UITableViewController, CLLocationManagerDeleg
         return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(1))
     }
     
+
     
-    
-//    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-//        let newLocation = locations.last as! CLLocation
-//        print("current position: \(newLocation.coordinate.longitude) , \(newLocation.coordinate.latitude)")
-//    }
+
 //
 //    func getProfPics() {
 //        let query = PFQuery(className:"_User")

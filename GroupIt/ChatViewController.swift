@@ -13,6 +13,15 @@ import MediaPlayer
 import Parse
 import STZPopupView
 class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    //@IBOutlet weak var nameButton: UIButton!
+    @IBOutlet weak var nameButton: UIButton!
+    
+    @IBAction func nameButtonPressed(sender: AnyObject) {
+        self.performSegueWithIdentifier("toViewProfile", sender: self)
+    }
+    
+    
     var currChatObjects = Array<PFObject>()
     var timer: NSTimer = NSTimer()
     var isLoading: Bool = false
@@ -34,10 +43,15 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     var darkColor = UIColor.grayColor()
     var gColor = UIColor.grayColor()
     var popupView = UIView(frame: CGRect(x: 10, y: (UIScreen.mainScreen().bounds.height-200)/2, width: UIScreen.mainScreen().bounds.width - 20, height: 200))
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print(usernames.count)
+        
+        //var titleLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 150, height: 30))
+        //titleLabel.text = "hey"
         
         lightColor = colorWithHexString ("#9ddaf6")
         darkColor = colorWithHexString ("#4DA9D5")
@@ -61,15 +75,32 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         if currChatObjects.first!["nameOne"] as! String == PFUser.currentUser()?.username {
             twoProfPics.append(currChatObjects.first!["userOneProfPic"] as! PFFile)
             twoProfPics.append(currChatObjects.first!["userTwoProfPic"] as! PFFile)
-            self.title = currChatObjects.first!["nameTwo"] as! String
+            //self.title = currChatObjects.first!["nameTwo"] as! String
+            nameButton.setTitle(currChatObjects.first!["nameTwo"] as? String, forState: .Normal)
             otherUserObjectId = currChatObjects.first!["userTwo"] as! String
         } else {
             twoProfPics.append(currChatObjects.first!["userTwoProfPic"] as! PFFile)
             twoProfPics.append(currChatObjects.first!["userOneProfPic"] as! PFFile)
-            self.title = currChatObjects.first!["nameOne"] as! String
+            //self.title = currChatObjects.first!["nameOne"] as! String
+            //nameButton.text = currChatObjects.first!["nameOne"] as! String
+            //self.view.addSubview(self.title)
+            //self.title.add
+            //self.view.bringSubviewToFront(<#T##view: UIView##UIView#>)
+            nameButton.setTitle(currChatObjects.first!["nameOne"] as? String, forState: .Normal)
             otherUserObjectId = currChatObjects.first!["userOne"] as! String
             
         }
+        
+        //let tap = UITapGestureRecognizer(target: self, action:"performSeg")
+//        titleLabel.addGestureRecognizer(tap)
+        
+        
+//        titleLabel.textAlignment = .Center
+//        self.navigationController?.navigationBar.addSubview(titleLabel)
+//        titleLabel.addGestureRecognizer(tap)
+        
+
+        
         
         
         chatUid = currChatObjects.first!.objectId! as! String
@@ -82,6 +113,22 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         self.loadMessages()
         
         
+    }
+    
+//    func performSeg() {
+//        self.performSegueWithIdentifier("toViewProfile", sender: self)
+//    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toViewProfile" {
+            let navVC = segue.destinationViewController as! ViewableProfileTableViewController
+            //let profileVC = navVC.topViewController as! ViewableProfileTableViewController
+            //var chatObjectArr = [chatObjects[currChatIndex]]
+            //chatVC.currChatObjects = chatObjectArr
+//             if currChatObjects.first!["nameOne"] as! String == PFUser.currentUser()?.username {
+//                profileVC.currUserObject = currChatObjects.first!
+//            profileVC.currUserObject = otherUserObjectId
+            navVC.currChatObject = currChatObjects
+        }
     }
     
     override func didReceiveMemoryWarning() {
